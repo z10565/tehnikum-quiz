@@ -43,7 +43,7 @@ const StepFour = () => {
                 <label htmlFor="variant-5">5</label>
               </li>
             </ul>
-            <button id="next-btn" disabled>
+            <button type="button" id="next-btn" disabled>
               Далее
             </button>
           </div>

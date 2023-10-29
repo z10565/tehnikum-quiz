@@ -32,7 +32,7 @@ const StepOne = () => {
                 Введите номер в правильном формате например
               </span>
             </label>
-            <button disabled id="next-btn">
+            <button type="button" disabled id="next-btn">
               Далее
             </button>
           </div>
