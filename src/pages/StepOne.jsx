@@ -1,40 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { AppHeader } from "../components/AppHeader";
+import { AppInput } from "../components/AppInput";
+import { AppButton } from "../components/AppButton";
+import { useNavigate } from "react-router-dom";
+import { ProgressBar } from "../components/ProgressBar";
 
 const StepOne = () => {
+  const [userAnswer, setUserAnswer] = useState("");
+  const [userError, setUserError] = useState(false);
+  const [buttonError, setButtonError] = useState(true);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (!userAnswer) {
+      setUserError(true);
+    } else {
+      setUserError(false);
+      navigate("/step-two");
+      localStorage.setItem("userOrigin", JSON.stringify(userAnswer));
+    }
+  };
+
+  useEffect(() => {
+    if (!userAnswer) {
+      setButtonError(true);
+    } else {
+      setButtonError(false);
+    }
+  }, [userAnswer]);
+
   return (
     <div className="container">
       <div className="wrapper">
         <div className="single-input-quiz">
-          <div className="indicator">
-            <div className="indicator__text">
-              <span className="indicator__description">
-                Скидка за прохождение опроса:
-              </span>
-              <span className="indicator__value">15%</span>
-            </div>
-            <div className="indicator__progressbar">
-              <div className="indicator__unit indicator__unit-1"></div>
-              <div className="indicator__unit indicator__unit-2"></div>
-              <div className="indicator__unit indicator__unit-3"></div>
-              <div className="indicator__unit indicator__unit-4"></div>
-            </div>
-          </div>
+          <ProgressBar currentStep={1} />
           <div className="question">
-            <h2>1. Занимательный вопрос</h2>
-            <label className="input-wrapper">
-              <input
-                required
-                type="text"
-                name="answer"
-                placeholder="Ваш ответ"
-              />
-              <span id="error-message">
-                Введите номер в правильном формате например
-              </span>
-            </label>
-            <button type="button" disabled id="next-btn">
-              Далее
-            </button>
+            <AppHeader
+              headerText="1. Откуда вы про нас узнали?"
+              headerType="h2"
+            />
+            <AppInput
+              inputPlaceholder="Введите текст"
+              inputValue={userAnswer}
+              hasError={userError}
+              inputChange={setUserAnswer}
+            />
+            <AppButton
+              style="margin: 30px"
+              onClick={handleClick}
+              isDisabled={buttonError}
+              buttonText="Далее"
+            />
           </div>
         </div>
       </div>
